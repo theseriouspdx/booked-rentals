@@ -118,11 +118,51 @@ section {
     text-decoration: none;
 }
 
-.logo-icon {
+.logo-icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--purple) 0%, var(--teal) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.logo-icon-box--large {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.logo-icon-box--large svg {
     width: 28px;
     height: 28px;
-    stroke: var(--text-primary);
-    stroke-width: 2;
+}
+
+@media (min-width: 768px) {
+    .logo-icon-box--large {
+        width: 72px;
+        height: 72px;
+        border-radius: 14px;
+    }
+    .logo-icon-box--large svg {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .logo-icon-box--large {
+        width: 88px;
+        height: 88px;
+        border-radius: 16px;
+    }
+    .logo-icon-box--large svg {
+        width: 44px;
+        height: 44px;
+    }
 }
 
 .logo-text {
@@ -156,15 +196,15 @@ section {
 }
 
 .cta-link {
-    background-color: var(--teal);
-    color: var(--bg-primary);
+    background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 100%);
+    color: #fff;
     padding: 0.5rem 1rem;
-    border-radius: 4px;
+    border-radius: 10px;
     font-weight: 600;
 }
 
 .cta-link:hover {
-    background-color: var(--pink);
+    opacity: 0.9;
 }
 
 .hamburger {
@@ -198,51 +238,58 @@ section {
 }
 
 .btn-primary {
-    background-color: var(--teal);
-    color: var(--bg-primary);
+    background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 100%);
+    color: #fff;
+    border-radius: 10px;
 }
 
 .btn-primary:hover {
-    background-color: var(--pink);
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
 .btn-secondary {
-    background-color: var(--pink);
-    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 100%);
+    color: #fff;
+    border-radius: 10px;
 }
 
 .btn-secondary:hover {
-    background-color: var(--teal);
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
 .btn-outline {
-    background-color: transparent;
+    background: transparent;
     color: var(--teal);
     border: 2px solid var(--teal);
+    border-radius: 10px;
 }
 
 .btn-outline:hover {
-    background-color: var(--teal);
+    background: var(--teal);
     color: var(--bg-primary);
 }
 
 /* ====== FORMS ====== */
 .email-form {
     display: flex;
-    gap: 0.5rem;
-    margin: 2rem 0;
-    flex-wrap: wrap;
+    gap: 12px;
+    max-width: 460px;
+    margin: 2rem auto;
 }
 
 .email-form input {
     flex: 1;
-    min-width: 200px;
-    padding: 0.75rem 1rem;
-    background-color: var(--bg-secondary);
+    padding: 14px 20px;
+    background-color: var(--bg-card);
     border: 1px solid var(--border);
     color: var(--text-primary);
-    border-radius: 4px;
+    border-radius: 10px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
 }
 
 .email-form input::placeholder {
@@ -250,17 +297,16 @@ section {
 }
 
 .email-form input:focus {
-    outline: none;
-    border-color: var(--teal);
-}
-
-.email-form-large input {
-    min-width: 300px;
-    font-size: 1rem;
+    border-color: var(--purple);
 }
 
 .email-form-large {
+    max-width: 500px;
     justify-content: center;
+}
+
+.email-form-large input {
+    font-size: 14px;
 }
 
 /* ====== HERO SECTION ====== */
@@ -284,6 +330,22 @@ section {
     font-size: 3rem;
     margin-bottom: 1.5rem;
     color: var(--text-primary);
+}
+
+.hero-title em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 50%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Gradient text utility */
+.gradient-text {
+    background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 50%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero-subtitle {
@@ -509,12 +571,13 @@ section {
 }
 
 .email-capture .btn-secondary {
-    background-color: white;
+    background: white;
     color: var(--pink);
 }
 
 .email-capture .btn-secondary:hover {
-    background-color: var(--text-primary);
+    background: var(--text-primary);
+    opacity: 1;
 }
 
 /* ====== PRODUCTS SECTION ====== */
