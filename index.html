@@ -301,8 +301,10 @@
             <div class="badge">Coming Soon</div>
             <h1>Smart hosting starts with<br><em>real experience</em></h1>
             <p>Strategies, automation, and guides for short-term rental hosts who want higher ratings, better guests, and less time spent on the grind.</p>
-            <form class="signup-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='You\'re in!'; this.querySelector('input').disabled=true;">
-                <input type="email" placeholder="Your email address" required>
+            <form class="signup-form" name="early-access" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onsubmit="event.preventDefault(); fetch('/', {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(new FormData(this)).toString()}).then(() => {this.querySelector('button').textContent='You\'re in!'; this.querySelector('input[type=email]').disabled=true; this.querySelector('button').disabled=true;}).catch(() => {this.querySelector('button').textContent='Try again';});">
+                <input type="hidden" name="bot-field">
+                <input type="hidden" name="form-name" value="early-access">
+                <input type="email" name="email" placeholder="Your email address" required>
                 <button type="submit">Get Early Access</button>
             </form>
             <p class="form-note">Be first to know when we launch. No spam, ever.</p>
