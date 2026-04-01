@@ -4,8 +4,9 @@
 # ============================================================
 
 backend:
-  name: git-gateway
-  branch: homepage-rebuild  # change to 'main' when you merge
+  name: github
+  repo: theseriouspdx/booked-rentals
+  branch: homepage-rebuild
 
 # Where uploaded images/files go
 media_folder: "images/uploads"
