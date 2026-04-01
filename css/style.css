@@ -1,0 +1,893 @@
+/* ====== CSS VARIABLES & RESET ====== */
+:root {
+    --bg-primary: #0d0b12;
+    --bg-secondary: #151220;
+    --bg-card: #1a1625;
+    --bg-card-hover: #201b2e;
+    --pink: #c4547a;
+    --purple: #7b5ea7;
+    --teal: #4a9e96;
+    --text-primary: #e8e4f0;
+    --text-secondary: #9b93a8;
+    --text-muted: #6b6378;
+    --border: #2a2438;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Merriweather', serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* ====== TYPOGRAPHY ====== */
+h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+a {
+    color: var(--teal);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--pink);
+}
+
+/* ====== LAYOUT UTILITIES ====== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+section {
+    padding: 60px 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--text-primary);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+}
+
+/* ====== NAVIGATION ====== */
+.navbar {
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 28px;
+    height: 28px;
+    stroke: var(--text-primary);
+    stroke-width: 2;
+}
+
+.logo-text {
+    display: flex;
+}
+
+.logo-white {
+    color: var(--text-primary);
+}
+
+.logo-teal {
+    color: var(--teal);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-link {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.nav-link:hover {
+    color: var(--teal);
+}
+
+.cta-link {
+    background-color: var(--teal);
+    color: var(--bg-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.cta-link:hover {
+    background-color: var(--pink);
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    gap: 5px;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-primary);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* ====== BUTTONS ====== */
+.btn {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--teal);
+    color: var(--bg-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--pink);
+}
+
+.btn-secondary {
+    background-color: var(--pink);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background-color: var(--teal);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--teal);
+    border: 2px solid var(--teal);
+}
+
+.btn-outline:hover {
+    background-color: var(--teal);
+    color: var(--bg-primary);
+}
+
+/* ====== FORMS ====== */
+.email-form {
+    display: flex;
+    gap: 0.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.email-form input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    border-radius: 4px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.email-form input::placeholder {
+    color: var(--text-muted);
+}
+
+.email-form input:focus {
+    outline: none;
+    border-color: var(--teal);
+}
+
+.email-form-large input {
+    min-width: 300px;
+    font-size: 1rem;
+}
+
+.email-form-large {
+    justify-content: center;
+}
+
+/* ====== HERO SECTION ====== */
+.hero {
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero-badge {
+    display: inline-block;
+    background-color: var(--bg-card);
+    color: var(--teal);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+.hero-title {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.hero-disclaimer {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+/* ====== HEADER BANNER SECTION ====== */
+.header-banner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+}
+
+.header-banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    min-height: 200px;
+    object-fit: cover;
+}
+
+.header-banner-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(ellipse at center, rgba(13, 11, 18, 0.65) 0%, rgba(13, 11, 18, 0.3) 60%, transparent 100%);
+}
+
+.header-banner-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.header-banner-logo .logo-icon {
+    width: 48px;
+    height: 48px;
+    stroke: var(--text-primary);
+    stroke-width: 2;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.header-banner-logo .logo-text {
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+    font-size: inherit;
+}
+
+@media (min-width: 768px) {
+    .header-banner-logo {
+        font-size: 3.5rem;
+    }
+
+    .header-banner-logo .logo-icon {
+        width: 64px;
+        height: 64px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .header-banner-logo {
+        font-size: 4.5rem;
+    }
+
+    .header-banner-logo .logo-icon {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* ====== FEATURED ARTICLES SECTION ====== */
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.article-card {
+    background-color: var(--bg-card);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-card:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--teal);
+    transform: translateY(-5px);
+}
+
+.article-tag {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    color: white;
+    margin-bottom: 1rem;
+    width: fit-content;
+}
+
+.tag-teal { background-color: var(--teal); }
+.tag-pink { background-color: var(--pink); }
+.tag-purple { background-color: var(--purple); }
+
+.article-card h3 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.article-card p {
+    flex: 1;
+    margin-bottom: 1.5rem;
+}
+
+.read-more {
+    color: var(--teal);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.read-more:hover {
+    color: var(--pink);
+    transform: translateX(5px);
+}
+
+/* ====== CATEGORIES SECTION ====== */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-card {
+    background-color: var(--bg-card);
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border);
+}
+
+.category-card:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--teal);
+    transform: translateY(-5px);
+}
+
+.category-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    stroke: var(--teal);
+    stroke-width: 1.5;
+}
+
+.category-card h3 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.category-card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+}
+
+.article-count {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* ====== EMAIL CAPTURE SECTION ====== */
+.email-capture {
+    background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 100%);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.email-capture h2 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.email-capture p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+}
+
+.email-capture .email-form {
+    justify-content: center;
+}
+
+.email-capture input {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.email-capture input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.email-capture .btn-secondary {
+    background-color: white;
+    color: var(--pink);
+}
+
+.email-capture .btn-secondary:hover {
+    background-color: var(--text-primary);
+}
+
+/* ====== PRODUCTS SECTION ====== */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.product-card {
+    background-color: var(--bg-card);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--teal);
+    transform: translateY(-5px);
+}
+
+.product-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-icon svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--teal);
+    stroke-width: 1.5;
+}
+
+.product-card h3 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.product-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.stars {
+    color: var(--teal);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+}
+
+.rating-text {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* ====== NEWS SECTION ====== */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.news-card {
+    background-color: var(--bg-card);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--teal);
+    transform: translateY(-5px);
+}
+
+.news-date {
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8rem;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.news-card h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.news-card p {
+    flex: 1;
+    margin-bottom: 1rem;
+}
+
+/* ====== UNIVERSITY SECTION ====== */
+.university {
+    padding: 100px 0;
+}
+
+.university-card {
+    position: relative;
+    background: linear-gradient(135deg, rgba(196, 84, 122, 0.1) 0%, rgba(123, 94, 167, 0.1) 100%);
+    padding: 4rem;
+    border-radius: 12px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.university-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--pink), var(--purple), var(--teal));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.university-tagline {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+
+.university-card h2 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.university-card p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.university-status {
+    display: inline-block;
+    background-color: var(--bg-card);
+    color: var(--teal);
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    padding: 60px 0 20px;
+    margin-top: 60px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.footer-section a:hover {
+    color: var(--teal);
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* ====== MOBILE RESPONSIVE (Mobile-First) ====== */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        margin-bottom: 30px;
+    }
+
+    section {
+        padding: 40px 0;
+    }
+
+    .nav-menu {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    .hero {
+        padding: 60px 0;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .email-form {
+        flex-direction: column;
+    }
+
+    .email-form input,
+    .email-form-large input {
+        min-width: 100%;
+        width: 100%;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--bg-secondary);
+        flex-direction: column;
+        gap: 0;
+        padding: 1rem;
+        display: none;
+        width: 100%;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-link {
+        padding: 0.75rem 1rem;
+        width: 100%;
+        display: block;
+    }
+
+    .cta-link {
+        background-color: var(--teal);
+    }
+
+    .articles-grid,
+    .products-grid,
+    .news-grid,
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .email-capture {
+        padding: 60px 0;
+    }
+
+    .email-capture .email-form {
+        flex-direction: column;
+    }
+
+    .university-card {
+        padding: 2rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    section {
+        padding: 30px 0;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    .section-title {
+        margin-bottom: 20px;
+    }
+
+    section {
+        padding: 20px 0;
+    }
+
+    .hero {
+        padding: 40px 0;
+    }
+
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .nav-menu {
+        gap: 0;
+    }
+}

@@ -1,0 +1,48 @@
+# ============================================================
+# Netlify Configuration for booked.rentals
+# ============================================================
+
+[build]
+  # Static site — no build command needed, just publish the root
+  publish = "."
+
+# ----------------------------------------------------------
+# BRANCH DEPLOYS
+# Enable preview URLs for non-main branches.
+# homepage-rebuild branch will be available at:
+#   homepage-rebuild--<your-site-name>.netlify.app
+# ----------------------------------------------------------
+[context.branch-deploy]
+  # Same as production for now (static site)
+  publish = "."
+
+# ----------------------------------------------------------
+# NETLIFY IDENTITY
+# Required for Sveltia CMS authentication.
+# You must also enable Identity + Git Gateway in the
+# Netlify dashboard (see SETUP.md for instructions).
+# ----------------------------------------------------------
+
+# Redirect for Netlify Identity widget (used by CMS login)
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+# ----------------------------------------------------------
+# HEADERS
+# ----------------------------------------------------------
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
