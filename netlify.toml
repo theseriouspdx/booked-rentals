@@ -3,8 +3,11 @@
 # ============================================================
 
 [build]
-  # Static site — no build command needed, just publish the root
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
 
 # ----------------------------------------------------------
 # BRANCH DEPLOYS
@@ -13,8 +16,8 @@
 #   homepage-rebuild--<your-site-name>.netlify.app
 # ----------------------------------------------------------
 [context.branch-deploy]
-  # Same as production for now (static site)
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
 
 # ----------------------------------------------------------
 # NETLIFY IDENTITY
@@ -38,9 +41,9 @@
     Cache-Control = "public, max-age=604800"
 
 [[headers]]
-  for = "/css/*"
+  for = "/_astro/*"
   [headers.values]
-    Cache-Control = "public, max-age=86400"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/js/*"

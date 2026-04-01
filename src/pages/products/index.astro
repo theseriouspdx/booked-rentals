@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getCollection } from 'astro:content';
+
+const products = await getCollection('products');
+---
+
+<BaseLayout title="Products - booked.rentals" description="Products we actually use in our own rental. Every recommendation is tested, not sponsored.">
+    <div class="listing-header">
+        <div class="container">
+            <h1>Products We Actually Use</h1>
+            <p>Every recommendation is something installed in our own rental. No pay-to-play.</p>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="products-grid">
+                {products.map(product => (
+                    <ProductCard
+                        title={product.data.title}
+                        review={product.data.review}
+                        rating={product.data.rating}
+                        slug={product.id}
+                    />
+                ))}
+            </div>
+        </div>
+    </section>
+</BaseLayout>

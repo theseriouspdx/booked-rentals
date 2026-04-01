@@ -1,0 +1,25 @@
+---
+interface Props {
+    title: string;
+    excerpt: string;
+    category: string;
+    slug: string;
+}
+
+const { title, excerpt, category, slug } = Astro.props;
+
+const tagClass = (() => {
+    switch (category) {
+        case 'Guest Management': return 'tag-teal';
+        case 'Legal & Insurance': return 'tag-pink';
+        default: return 'tag-purple';
+    }
+})();
+---
+
+<article class="article-card">
+    <div class={`article-tag ${tagClass}`}>{category}</div>
+    <h3>{title}</h3>
+    <p>{excerpt}</p>
+    <a href={`/articles/${slug}/`} class="read-more">Read More →</a>
+</article>

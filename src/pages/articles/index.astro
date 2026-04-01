@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+const articles = await getCollection('articles', ({ data }) => data.draft !== true);
+const sortedArticles = articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Articles - booked.rentals" description="Strategies, guides, and real-world hosting advice for short-term rental hosts.">
+    <div class="listing-header">
+        <div class="container">
+            <h1>Articles</h1>
+            <p>Strategies, guides, and real-world hosting advice from experience.</p>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="articles-grid">
+                {sortedArticles.map(article => (
+                    <ArticleCard
+                        title={article.data.title}
+                        excerpt={article.data.excerpt}
+                        category={article.data.category}
+                        slug={article.id}
+                    />
+                ))}
+            </div>
+        </div>
+    </section>
+</BaseLayout>

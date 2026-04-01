@@ -9,7 +9,7 @@ backend:
   branch: homepage-rebuild
 
 # Where uploaded images/files go
-media_folder: "images/uploads"
+media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 # Site URL for previews
@@ -27,7 +27,7 @@ collections:
   # ----------------------------------------------------------
   - name: "articles"
     label: "Articles"
-    folder: "content/articles"
+    folder: "src/content/articles"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     sort: "date:desc"
@@ -55,7 +55,7 @@ collections:
   # ----------------------------------------------------------
   - name: "products"
     label: "Products"
-    folder: "content/products"
+    folder: "src/content/products"
     create: true
     slug: "{{slug}}"
     fields:
@@ -85,7 +85,7 @@ collections:
   # ----------------------------------------------------------
   - name: "news"
     label: "News"
-    folder: "content/news"
+    folder: "src/content/news"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     sort: "date:desc"
@@ -104,7 +104,7 @@ collections:
     files:
       - label: "General"
         name: "general"
-        file: "content/settings.yml"
+        file: "public/content/settings.yml"
         fields:
           - { label: "Site Title", name: "title", widget: "string", default: "booked.rentals" }
           - { label: "Tagline", name: "tagline", widget: "string", default: "Smart hosting starts with real experience" }

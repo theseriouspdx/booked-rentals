@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+    const products = await getCollection('products');
+    return products.map(product => ({
+        params: { slug: product.id },
+        props: { product },
+    }));
+}
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+
+const numRating = parseFloat(product.data.rating);
+const fullStars = Math.floor(numRating);
+const hasHalf = numRating % 1 >= 0.5;
+const starsDisplay = '★'.repeat(fullStars) + (hasHalf ? '½' : '');
+---
+
+<BaseLayout title={`${product.data.title} - booked.rentals`} description={product.data.review}>
+    <div class="content-page-header">
+        <div class="container">
+            <h1>{product.data.title}</h1>
+            <div class="product-detail-rating">
+                <span class="stars">{starsDisplay}</span>
+                <span class="rating-text">{product.data.rating}</span>
+            </div>
+            <p>{product.data.review}</p>
+        </div>
+    </div>
+    <section>
+        <div class="container">
+            <div class="prose">
+                <Content />
+            </div>
+            {product.data.affiliate_url && (
+                <div class="affiliate-cta">
+                    <a href={product.data.affiliate_url} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Check Current Price →</a>
+                </div>
+            )}
+            <div class="prose">
+                <a href="/products/" class="back-link">← Back to Products</a>
+            </div>
+        </div>
+    </section>
+</BaseLayout>

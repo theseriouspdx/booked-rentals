@@ -1,0 +1,17 @@
+---
+interface Props {
+    id: string;
+    buttonText: string;
+    placeholder?: string;
+    large?: boolean;
+}
+
+const { id, buttonText, placeholder = 'Your email address', large = false } = Astro.props;
+const formClass = large ? 'email-form email-form-large' : 'email-form';
+const btnClass = large ? 'btn btn-secondary' : 'btn btn-primary';
+---
+
+<form class={formClass} id={id}>
+    <input type="email" placeholder={placeholder} required>
+    <button type="submit" class={btnClass}>{buttonText}</button>
+</form>

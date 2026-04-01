@@ -1,0 +1,25 @@
+---
+interface Props {
+    title: string;
+    review: string;
+    rating: string;
+    slug: string;
+    icon?: string;
+}
+
+const { title, review, rating, slug } = Astro.props;
+
+const numRating = parseFloat(rating);
+const fullStars = Math.floor(numRating);
+const hasHalf = numRating % 1 >= 0.5;
+const starsDisplay = '★'.repeat(fullStars) + (hasHalf ? '½' : '');
+---
+
+<div class="product-card">
+    <h3><a href={`/products/${slug}/`} style="color: var(--text-primary); text-decoration: none;">{title}</a></h3>
+    <p>{review}</p>
+    <div class="product-rating">
+        <span class="stars">{starsDisplay}</span>
+        <span class="rating-text">{rating}</span>
+    </div>
+</div>
