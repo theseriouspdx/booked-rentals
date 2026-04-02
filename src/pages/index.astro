@@ -5,6 +5,17 @@ import ProductCard from '../components/ProductCard.astro';
 import NewsCard from '../components/NewsCard.astro';
 import EmailForm from '../components/EmailForm.astro';
 import { getCollection } from 'astro:content';
+// Load site settings from CMS-managed YAML
+// Using a simple key: value parser since the settings file is flat YAML
+import fs from 'node:fs';
+import path from 'node:path';
+const settingsPath = path.resolve(process.cwd(), 'public/content/settings.yml');
+const settingsRaw = fs.readFileSync(settingsPath, 'utf-8');
+const settings: Record<string, string> = {};
+for (const line of settingsRaw.split('\n')) {
+    const match = line.match(/^(\w+):\s*"?(.+?)"?\s*$/);
+    if (match) settings[match[1]] = match[2];
+}
 
 // Query content collections
 const allArticles = await getCollection('articles', ({ data }) => data.draft !== true);
@@ -28,6 +39,34 @@ const fallbackNews = [
 
 const displayArticles = featuredArticles.length > 0 ? featuredArticles : fallbackArticles;
 const displayNews = latestNews.length > 0 ? latestNews : fallbackNews;
+
+// Topics: load visible topics sorted by sort_order, count articles per topic
+const allTopics = await getCollection('topics');
+const visibleTopics = allTopics
+    .filter(t => t.data.visible)
+    .sort((a, b) => a.data.sort_order - b.data.sort_order);
+
+// Count articles per topic category (match topic title to article category)
+const articleCountByCategory: Record<string, number> = {};
+for (const article of allArticles) {
+    const cat = article.data.category;
+    articleCountByCategory[cat] = (articleCountByCategory[cat] || 0) + 1;
+}
+
+// Smart grid wrap: even count = equal rows, odd count = top row gets fewer
+// e.g. 6→3+3, 7→3+4, 8→4+4, 9→4+5, 10→5+5, 11→5+6
+const topicCount = visibleTopics.length;
+let topRowCount: number;
+if (topicCount <= 4) {
+    topRowCount = topicCount; // single row
+} else if (topicCount % 2 === 0) {
+    topRowCount = topicCount / 2; // even split
+} else {
+    const x = topicCount + 1; // round up to nearest even
+    topRowCount = (x / 2) - 1;
+}
+const topRowTopics = visibleTopics.slice(0, topRowCount);
+const bottomRowTopics = visibleTopics.slice(topRowCount);
 ---
 
 <BaseLayout title="booked.rentals - Smart Hosting for Superhosts">
@@ -36,27 +75,24 @@ const displayNews = latestNews.length > 0 ? latestNews : fallbackNews;
     <section class="header-banner" id="header-banner">
         <img src="/images/booked-header.png" alt="booked.rentals Superhost occupancy tracker showing consistent 78-94% occupancy rates across 16 quarters from 2022 to 2025" class="header-banner-img">
         <div class="header-banner-overlay">
-            <div class="header-banner-logo">
-                <div class="logo-icon-box logo-icon-box--large">
-                    <svg width="32" height="32" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 6L8 2L14 6V12C14 12.5304 13.7893 13.0391 13.4142 13.4142C13.0391 13.7893 12.5304 14 12 14H4C3.46957 14 2.96086 13.7893 2.58579 13.4142C2.21071 13.0391 2 12.5304 2 12V6Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M6 14V8H10V14" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+            <div class="hero-badge">{settings.hero_badge}</div>
+            <div class="header-banner-brand">
+                <div class="header-banner-logo">
+                    <img src="/images/logo-icon-box-new.svg" alt="" class="header-logo-icon" />
+                    <img src="/images/logo-wordmark.svg" alt="booked.rentals" class="header-logo-wordmark" />
                 </div>
-                <span class="logo-text"><span class="logo-white">booked</span><span class="logo-teal">.rentals</span></span>
+                <img src="/images/logo-tagline.svg" alt="booked.rentals means you're always booked" class="header-logo-tagline" />
             </div>
-            <p class="header-banner-tagline">stay booked.rentals means you're <em class="gradient-text">always booked</em></p>
         </div>
     </section>
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="container">
-            <div class="hero-badge">From a 16x Superhost with 315+ Five-Star Reviews</div>
-            <h1 class="hero-title">Smart hosting starts with<br><em>real experience</em></h1>
-            <p class="hero-subtitle">Strategies, automation, and guides for short-term rental hosts who want higher ratings, better guests, and less time on the grind.</p>
-            <EmailForm id="heroForm" buttonText="Get Early Access" />
-            <p class="hero-disclaimer">Be first to know when we launch. No spam, ever.</p>
+            <h1 class="hero-title">{settings.hero_headline}<br><em>{settings.hero_headline_emphasis}</em></h1>
+            <p class="hero-subtitle">{settings.hero_subtitle}</p>
+            <EmailForm id="heroForm" buttonText={settings.hero_cta_button} />
+            <p class="hero-disclaimer">{settings.hero_disclaimer}</p>
         </div>
     </section>
 
@@ -77,74 +113,56 @@ const displayNews = latestNews.length > 0 ? latestNews : fallbackNews;
         </div>
     </section>
 
-    <!-- Content Categories -->
+    <!-- Content Categories (data-driven from Topics collection) -->
     <section class="categories" id="categories">
         <div class="container">
             <h2 class="section-title">Explore Topics</h2>
-            <div class="categories-grid">
-                <div class="category-card">
-                    <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    </svg>
-                    <h3>Guest Management</h3>
-                    <p>Communication templates, conflict resolution, and review strategies.</p>
-                    <span class="article-count">12 articles</span>
+            {topicCount <= 4 ? (
+                <!-- Single row for 1-4 topics -->
+                <div class="categories-row" style={`--cols: ${topicCount}`}>
+                    {visibleTopics.map(topic => (
+                        <div class="category-card">
+                            <Fragment set:html={topic.data.icon.replace('<svg', '<svg class="category-icon"')} />
+                            <h3>{topic.data.title}</h3>
+                            <p>{topic.data.description}</p>
+                            <span class="article-count">{articleCountByCategory[topic.data.title] || 0} {articleCountByCategory[topic.data.title] === 1 ? 'article' : 'articles'}</span>
+                        </div>
+                    ))}
                 </div>
-                <div class="category-card">
-                    <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                    </svg>
-                    <h3>Pricing & Revenue</h3>
-                    <p>Dynamic pricing, seasonal strategy, and revenue optimization.</p>
-                    <span class="article-count">8 articles</span>
-                </div>
-                <div class="category-card">
-                    <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                    <h3>Automation & Tools</h3>
-                    <p>Smart home tech, messaging automation, and operational systems.</p>
-                    <span class="article-count">10 articles</span>
-                </div>
-                <div class="category-card">
-                    <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                    <h3>Property Setup</h3>
-                    <p>Design, amenities, listings, and first impressions that convert.</p>
-                    <span class="article-count">9 articles</span>
-                </div>
-                <div class="category-card">
-                    <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                    <h3>Reviews & Ratings</h3>
-                    <p>Getting five stars consistently and handling the ones that aren't.</p>
-                    <span class="article-count">7 articles</span>
-                </div>
-                <div class="category-card">
-                    <svg class="category-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                    <h3>Legal & Insurance</h3>
-                    <p>AirCover, liability, local regulations, and protecting your asset.</p>
-                    <span class="article-count">6 articles</span>
-                </div>
-            </div>
+            ) : (
+                <!-- Two balanced rows for 5+ topics -->
+                <>
+                    <div class="categories-row" style={`--cols: ${topRowCount}`}>
+                        {topRowTopics.map(topic => (
+                            <div class="category-card">
+                                <Fragment set:html={topic.data.icon.replace('<svg', '<svg class="category-icon"')} />
+                                <h3>{topic.data.title}</h3>
+                                <p>{topic.data.description}</p>
+                                <span class="article-count">{articleCountByCategory[topic.data.title] || 0} {articleCountByCategory[topic.data.title] === 1 ? 'article' : 'articles'}</span>
+                            </div>
+                        ))}
+                    </div>
+                    <div class="categories-row" style={`--cols: ${bottomRowTopics.length}`}>
+                        {bottomRowTopics.map(topic => (
+                            <div class="category-card">
+                                <Fragment set:html={topic.data.icon.replace('<svg', '<svg class="category-icon"')} />
+                                <h3>{topic.data.title}</h3>
+                                <p>{topic.data.description}</p>
+                                <span class="article-count">{articleCountByCategory[topic.data.title] || 0} {articleCountByCategory[topic.data.title] === 1 ? 'article' : 'articles'}</span>
+                            </div>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     </section>
 
     <!-- Email Capture -->
     <section class="email-capture" id="cta-guide">
         <div class="container">
-            <h2>Get the guide that 5-star hosts swear by</h2>
-            <p>Join 2,000+ Superhosts who've already leveled up their hosting game</p>
-            <EmailForm id="captureForm" buttonText="Get the Guide" placeholder="Enter your email" large={true} />
+            <h2>{settings.cta_headline}</h2>
+            <p>Join {settings.subscriber_count} Superhosts who've already leveled up their hosting game</p>
+            <EmailForm id="captureForm" buttonText={settings.cta_button_text} placeholder="Enter your email" large={true} />
         </div>
     </section>
 

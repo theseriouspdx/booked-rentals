@@ -119,28 +119,45 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 /* ====== ACTIVE NAV LINK HIGHLIGHT ====== */
-window.addEventListener('scroll', function() {
+// Handles both path-based links (/articles/) and anchor links (/#about)
+const currentPath = window.location.pathname;
+const isHomepage = currentPath === '/' || currentPath === '/index.html';
+
+// Highlight path-based nav links on page load and scroll
+function updateActiveNav() {
     let currentSection = '';
 
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-
-        if (window.pageYOffset >= sectionTop - 100) {
-            currentSection = section.getAttribute('id');
-        }
-    });
+    // On homepage, track which section is in view for anchor-based links
+    if (isHomepage) {
+        const sections = document.querySelectorAll('section[id]');
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (window.pageYOffset >= sectionTop - 100) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+    }
 
     navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + currentSection) {
-            link.style.color = 'var(--teal)';
-        } else {
-            link.style.color = '';
+        const href = link.getAttribute('href');
+        let isActive = false;
+
+        if (href.startsWith('/') && !href.startsWith('/#')) {
+            // Path-based link (e.g. /articles/) — match against current URL path
+            isActive = currentPath.startsWith(href) && href !== '/';
+        } else if (isHomepage && href.startsWith('/#')) {
+            // Anchor link on homepage (e.g. /#about) — match against scroll position
+            const anchor = href.substring(2); // strip "/#"
+            isActive = currentSection === anchor;
         }
+
+        link.style.color = isActive ? 'var(--teal)' : '';
     });
-});
+}
+
+// Run on scroll (for anchor links on homepage) and on load (for path-based links)
+window.addEventListener('scroll', updateActiveNav);
+updateActiveNav();
 
 /* ====== LAZY LOAD IMAGES (if needed in future) ====== */
 if ('IntersectionObserver' in window) {

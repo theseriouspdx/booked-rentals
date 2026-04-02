@@ -20,13 +20,13 @@
   publish = "dist"
 
 # ----------------------------------------------------------
-# NETLIFY IDENTITY
-# Required for Sveltia CMS authentication.
-# You must also enable Identity + Git Gateway in the
-# Netlify dashboard (see SETUP.md for instructions).
+# CMS ADMIN
+# Sveltia CMS uses GitHub OAuth for authentication (not
+# Netlify Identity). Configure OAuth in the Netlify
+# dashboard under Site settings > Access & security > OAuth.
 # ----------------------------------------------------------
 
-# Redirect for Netlify Identity widget (used by CMS login)
+# SPA redirect for Sveltia CMS admin panel
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
@@ -49,3 +49,8 @@
   for = "/js/*"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

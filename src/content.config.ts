@@ -28,6 +28,17 @@ const products = defineCollection({
   }),
 });
 
+const topics = defineCollection({
+  loader: glob({ base: './src/content/topics', pattern: '**/*.md' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    icon: z.string(),
+    visible: z.boolean().default(true),
+    sort_order: z.number().default(0),
+  }),
+});
+
 const news = defineCollection({
   loader: glob({ base: './src/content/news', pattern: '**/*.md' }),
   schema: z.object({
@@ -38,4 +49,4 @@ const news = defineCollection({
   }),
 });
 
-export const collections = { articles, products, news };
+export const collections = { articles, products, news, topics };
