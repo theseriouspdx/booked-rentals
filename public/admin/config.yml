@@ -6,15 +6,15 @@
 backend:
   name: github
   repo: theseriouspdx/booked-rentals
-  branch: homepage-rebuild
+  branch: main
 
 # Where uploaded images/files go
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 # Site URL for previews (branch preview while in development)
-site_url: https://homepage-rebuild--booked-rentals.netlify.app
-display_url: https://homepage-rebuild--booked-rentals.netlify.app
+site_url: https://booked.rentals
+display_url: https://booked.rentals
 
 # ============================================================
 # CONTENT COLLECTIONS
